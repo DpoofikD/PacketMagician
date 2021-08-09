@@ -3,7 +3,10 @@
 Easy tool for constructing and sending custom packets.
 
 # Compile:
+
 ~~~
+git clone https://github.com/DpoofikD/PacketMagician
+cd PacketMagician/
 g++ -std=c++17 -o PacketMagician PacketMagician.cpp
 ~~~
 

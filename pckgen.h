@@ -13,6 +13,8 @@
 #include <sys/socket.h>
 #include <sys/select.h>
 #include <netinet/ip_icmp.h>
+#include <netinet/tcp.h>
+#include <netinet/ip.h>
 
 typedef struct {
     struct icmp hdr;

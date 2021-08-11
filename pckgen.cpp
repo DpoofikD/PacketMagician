@@ -29,7 +29,8 @@ static void prepare_icmp(ICMP_pck* pckICMP) {
     pckICMP->hdr.icmp_type = ICMP_ECHO;
     pckICMP->hdr.icmp_hun.ih_idseq.icd_id = rand();
     pckICMP->hdr.icmp_hun.ih_idseq.icd_seq = 0;
-    pckICMP->hdr.icmp_cksum = cksum(pckICMP, sizeof(ICMP_pck));
+    if (cmd.csum)
+        pckICMP->hdr.icmp_cksum = cksum(pckICMP, sizeof(ICMP_pck));
 }
 static void prepare_icmp(ICMP_pck* pckICMP);
 

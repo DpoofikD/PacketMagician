@@ -8,13 +8,33 @@ using std::string;
 
 struct opts {
 	bool help = false;
-	string target_ip = "127.0.0.1";
+	string target_ip = "192.168.0.1";
+	string source_ip = "192.168.0.2";
+	unsigned short target_port = 80;
+	unsigned short source_port = 15243;
+	short ttl = 255;
+	short syn = 0;
+	short fin = 0;
+	short rst = 0;
+	short psh = 0;
+	short ack = 0;
+	short urg = 0;
+	string payload = "Hello, im about to send o some packets!";
 	string protocol = "icmp";
-	string interfacei = "eth1";
+	unsigned int window_size = 65536;
 	long long time = -1;
 	unsigned int delay = 0;
 	long long pck_amount = -1;
 	unsigned int timeout = 1000;
+	unsigned short csum = 1;
+};
+
+struct TCP_header {
+	unsigned int source_address;
+	unsigned int dest_address;
+	unsigned int placeholder;
+	unsigned int protocol;
+	unsigned int tcp_length;
 };
 
 struct opts cmd = { NULL };

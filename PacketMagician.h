@@ -8,6 +8,7 @@ using std::string;
 
 struct opts {
 	bool help = false;
+	bool usage = false;
 	string target_ip = "192.168.0.1";
 	string source_ip = "192.168.0.2";
 	unsigned short target_port = 80;
@@ -19,14 +20,14 @@ struct opts {
 	short psh = 0;
 	short ack = 0;
 	short urg = 0;
-	string payload = "Hello, im about to send o some packets!";
+	string payload = "Hello, im about to send you some packets!";
 	string protocol = "icmp";
 	unsigned int window_size = 65536;
 	long long time = -1;
 	unsigned int delay = 0;
 	long long pck_amount = -1;
 	unsigned int timeout = 1000;
-	unsigned short csum = 1;
+	bool csum = 1;
 };
 
 struct TCP_header {

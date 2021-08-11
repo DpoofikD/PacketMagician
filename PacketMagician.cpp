@@ -148,11 +148,12 @@ int ICMP(const char* ip, unsigned int timeout);
 int main(int argc, char *argv[]) {
 	auto cli = (
 		option("-h", "--help").set(cmd.help, true),
+		option("--usage").set(cmd.usage, true),
 		option("--protocol") & value("icmp, tcp (icmp)", cmd.protocol),
-		option("--tip", "--target-ip") & value("target ip (192.168.0.1)", cmd.target_ip),
-		option("--sip", "--source-ip") & value("source ip (192.168.0.2)", cmd.source_ip),
-		option("--tp", "--target-port") & value("target port (80)", cmd.target_port),
-		option("--sp", "--source-port") & value("source port (15243)", cmd.source_port),
+		option("--tip") & value("target ip (192.168.0.1)", cmd.target_ip),
+		option("--sip") & value("source ip (192.168.0.2)", cmd.source_ip),
+		option("--tp") & value("target port (80)", cmd.target_port),
+		option("--sp") & value("source port (15243)", cmd.source_port),
 		option("--ttl") & value("ttl of packet (255)", cmd.ttl),
 		option("--syn") & value("syn flag (0)", cmd.syn),
 		option("--fin") & value("fin flag (0)", cmd.fin),
@@ -162,14 +163,38 @@ int main(int argc, char *argv[]) {
 		option("--urg") & value("urg flag (0)", cmd.urg),
 		option("--w-size") & value("window size (65536)", cmd.window_size),
 		option("-t", "--time") & value("time to repeat in seconds, -1 for timeless (-1)", cmd.time),
-		option("--timeout") & value("time to wait for respond in ms (1000)", cmd.timeout),
+		option("--tout", "--timeout") & value("time to wait for respond in ms (1000)", cmd.timeout),
 		option("-d", "--delay") & value("delay in ms (0)", cmd.delay),
-		option("--cksum") & value("calculate the IP header checksum or not (0/1), 1 is default", cmd.csum),
+		option("--cksum") & value("calculate the IP header checksum or not (true/false), 1 is default", cmd.csum),
 		option("-p", "--payload") & value("sets the exact payload for TCP", cmd.payload),
 		option("--pck-amount") & value("amount of packets sent, if > 0, -t will be ignored. Use -1 for endless (-1)", cmd.pck_amount) );
 	parse(argc, argv, cli);
-	if (cmd.help) {
+	if (cmd.usage) {
 		cout << usage_lines(cli) << "\n";
+		return 0;
+	}
+	if (cmd.help) {
+		cout << "-h, --help - shows this message\n" \
+		<< "--usage - shows the usage message\n" \
+		<< "--protocol - which protocol would you like to use (currently icmp and tcp are avaliable)\n" \
+		<< "--tip - Target IP\n" \
+		<< "--sip - Source IP\n" \
+		<< "--tp - Target Port\n" \
+		<< "--sp - Source Port\n" \
+		<< "--ttl - TTL of a packet\n" \
+		<< "--syn - SYN flag\n" \
+		<< "--fin - FIN flag\n" \
+		<< "--rst - RST flag\n" \
+		<< "--psh - PSH flag\n" \
+		<< "--ack - ACK flag\n" \
+		<< "--urg - URG flag\n" \
+		<< "--w-size - Window size\n" \
+		<< "-t, --time - Time to send packets\n" \
+		<< "--pck-amount - Amount of packets to send\n" \
+		<< "--tout, --timeout - Time to wait for response\n" \
+		<< "-d, --delay - Delay between packets\n" \
+		<< "--cksum - Whether to calculate the checksum or not\n" \
+		<< "-p, --payload - Exact payload to send\n";
 		return 0;
 	}
 	const char* ip_chars_tar = cmd.target_ip.c_str();

@@ -12,7 +12,7 @@ I am **_not_** responsible for any damage caused by this tool and do not support
 
 ~~~
 git clone https://github.com/DpoofikD/PacketMagician
-cd PacketMagician/
+cd PacketMagician/src/
 g++ -std=c++17 -o PacketMagician PacketMagician.cpp
 ~~~
 

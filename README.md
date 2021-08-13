@@ -1,6 +1,6 @@
 # PacketMagician
 
-Easy tool for constructing and sending custom TCP or ICMP packets.
+Easy Linux tool for constructing and sending custom TCP or ICMP packets. May be used for scanning, monitoring and testing.
 
 ### Warning!
 
@@ -8,21 +8,23 @@ I am **_not_** responsible for any damage caused by this tool and do not support
 
 > *Now water can flow, or it can crash... Be water, my friend*
 
-# Compile:
+## Compile:
 
 ~~~
 git clone https://github.com/DpoofikD/PacketMagician
-cd PacketMagician/src/
-g++ -std=c++17 -o PacketMagician PacketMagician.cpp
+cd PacketMagician/
+g++ -std=c++17 -o PacketMagician src/PacketMagician.cpp
 ~~~
 
-# Usage:
+## Usage:
 
 ~~~
-sudo ./PacketMagician [args]
+sudo ./PacketMagician --tip IP --sip IP --tp PORT --sp PORT [args]
 ~~~
 
-# Arguments list:
+(```sudo``` is required for creating **RAW socket**)
+
+## Arguments list:
 ~~~
 -h, --help - shows this message
 --usage - shows the usage message
@@ -38,11 +40,11 @@ sudo ./PacketMagician [args]
 --psh - PSH flag
 --ack - ACK flag
 --urg - URG flag
---w-size - Window size
+--w-size - packet window size
 -t, --time - Time to send packets
 --pck-amount - Amount of packets to send
 --tout, --timeout - Time to wait for response
--d, --delay - Delay between packets
+-d, --delay - Delay between packets sendings
 --cksum - Whether to calculate the checksum or not
--p, --payload - Exact payload to send
+-p, --payload - Exact string payload to send
 ~~~

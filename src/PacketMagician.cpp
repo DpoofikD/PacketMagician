@@ -68,6 +68,22 @@ int TCP (long long pck_amount, unsigned int delay, long long time, struct iphdr 
 }
 int TCP (long long pck_amount, unsigned int delay, long long time, struct iphdr *iph, struct tcphdr *tcph, struct sockaddr_in sin, struct TCP_header psh, char datagram[], char source_ip[], char *data , char *pseudogram);
 
+int UDP (const char* payload, char target_ip[], int target_port) {
+	sockaddr_in kansei_dorifto;
+	const int udp_sock = socket(AF_INET, SOCK_DGRAM, 0);
+	if (udp_sock < 0)
+		return -1;
+	bzero(&kansei_dorifto,sizeof(kansei_dorifto));
+    kansei_dorifto.sin_family = AF_INET;
+    kansei_dorifto.sin_addr.s_addr = inet_addr(target_ip);
+    kansei_dorifto.sin_port = htons(target_port);
+	if (sendto (udp_sock, payload, strlen(payload) + 1, 0, (sockaddr*)&kansei_dorifto, sizeof(kansei_dorifto)) < 0)
+		return 1;
+	close (udp_sock);
+	return 0;
+}
+int UDP (const char* payload, char target_ip[], char target_port[]);
+
 int ICMP (const char* ip, unsigned int timeout) {
     if (ip == NULL || timeout == 0)
         return -1;
@@ -197,7 +213,7 @@ int main(int argc, char *argv[]) {
 		<< "-p, --payload - Exact payload to send\n";
 		return 0;
 	}
-	const char* ip_chars_tar = cmd.target_ip.c_str();
+	char* ip_chars_tar = (char*) cmd.target_ip.c_str();
 	const char* ip_chars_source = cmd.source_ip.c_str();
 	const char* payload_chars = cmd.payload.c_str();
 
@@ -214,7 +230,7 @@ int main(int argc, char *argv[]) {
 						cout << "Timeout.\n";
 						break;
 					case -1:
-						cout<<"Check your args!\n";
+						cout << "Check your args!\n";
 						return 0;
 						break;
 				}
@@ -227,17 +243,18 @@ int main(int argc, char *argv[]) {
 			unsigned int start_time = curtime();
 			unsigned int now = curtime();
 			while ((now - start_time) < (cmd.time * 1000)) {
+				cout << "Querry... "; 
 				now = curtime();
 				int result = ICMP(ip_chars_tar, cmd.timeout);
 				switch (result) {
 					case 0:
-						cout << "Querry... OK! Answered in " << reply_global << " ms!\n";
+						cout << "OK! Answered in " << reply_global << " ms!\n";
 						break;
 					case 1:
 						cout << "Timeout.\n";
 						break;
 					case -1:
-						cout<<"Check your args!\n";
+						cout << "Check your args!\n";
 						return 0;
 						break;
 				}
@@ -248,16 +265,17 @@ int main(int argc, char *argv[]) {
 		}
 		else if (cmd.time == -1 && cmd.pck_amount == -1) {
 			while (true) {
+				cout << "Querry... "; 
 				int result = ICMP(ip_chars_tar, cmd.timeout);
 				switch (result) {
 					case 0:
-						cout << "Querry... OK! Answered in " << reply_global << " ms!\n";
+						cout << "OK! Answered in " << reply_global << " ms!\n";
 						break;
 					case 1:
 						cout << "Timeout.\n";
 						break;
 					case -1:
-						cout<<"Check your args!\n";
+						cout << "Check your args!\n";
 						return 0;
 						break;
 				}
@@ -270,7 +288,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	// Now, water can flow, or it can crash... Be water, my friend. 
-	if (cmd.protocol == "tcp") {
+	else if (cmd.protocol == "tcp") {
 		srand(time(NULL));
 		char datagram[4096] , source_ip[32] , *data , *pseudogram;
 		memset (datagram, 0, 4096);
@@ -317,6 +335,75 @@ int main(int argc, char *argv[]) {
 		psh.protocol = IPPROTO_TCP;
 		psh.tcp_length = htons(sizeof(struct tcphdr) + strlen(data));
 		int result = TCP (cmd.pck_amount, cmd.delay, cmd.time, iph, tcph, sin, psh, datagram, source_ip, data, pseudogram);
-	}	
-	return 0;
+		return 0;
+	}
+	else if (cmd.protocol == "udp") {
+		if (cmd.pck_amount >= 0) {
+			for (int i = 0; i < cmd.pck_amount; i++) {
+				int result = UDP(payload_chars, ip_chars_tar, cmd.target_port);
+				cout << "Sending... "; 
+				switch (result) {
+					case 0:
+						cout << "OK!\n";
+						break;
+					case 1:
+						cout << "Can't send.\n";
+						break;
+					case -1:
+						cout << "Can't open the socket!\n";
+						return 0;
+						break;
+				}
+				usleep(cmd.delay * microsecond);
+			}
+			cout << "Complete successful!\n";
+			return 0;
+		}
+		else if (cmd.time >= 0 && cmd.pck_amount == -1) {
+			unsigned int start_time = curtime();
+			unsigned int now = curtime();
+			while ((now - start_time) < (cmd.time * 1000)) {
+				cout << "Sending... "; 
+				now = curtime();
+				int result = UDP(payload_chars, ip_chars_tar, cmd.target_port);
+				switch (result) {
+					case 0:
+						cout << "OK!\n";
+						break;
+					case 1:
+						cout << "Can't send.\n";
+						break;
+					case -1:
+						cout << "Can't open the socket!\n";
+						return 0;
+						break;
+				}
+				usleep(cmd.delay * microsecond);
+			}
+			cout << "Complete successful!\n";
+			return 0;
+		}
+		else if (cmd.time == -1 && cmd.pck_amount == -1) {
+			while (true) {
+				cout << "Sending... "; 
+				int result = UDP(payload_chars, ip_chars_tar, cmd.target_port);
+				switch (result) {
+					case 0:
+						cout << "OK!\n";
+						break;
+					case 1:
+						cout << "Can't send.\n";
+						break;
+					case -1:
+						cout << "Can't open the socket!\n";
+						return 0;
+						break;
+				}
+				usleep(cmd.delay * microsecond);
+			}
+		}
+		else
+			cout << "Check your args!";
+		return 0;
+	}
 }

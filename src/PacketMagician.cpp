@@ -165,7 +165,7 @@ int main(int argc, char *argv[]) {
 	auto cli = (
 		option("-h", "--help").set(cmd.help, true),
 		option("--usage").set(cmd.usage, true),
-		option("--protocol") & value("icmp/tcp (icmp)", cmd.protocol),
+		option("--protocol") & value("icmp/tcp/udp (icmp)", cmd.protocol),
 		option("--tip") & value("target ip (192.168.0.1)", cmd.target_ip),
 		option("--sip") & value("source ip (192.168.0.2)", cmd.source_ip),
 		option("--tp") & value("target port (80)", cmd.target_port),
@@ -192,7 +192,7 @@ int main(int argc, char *argv[]) {
 	if (cmd.help) {
 		cout << "-h, --help - shows this message\n" \
 		<< "--usage - shows the usage message\n" \
-		<< "--protocol - which protocol would you like to use (currently icmp and tcp are avaliable)\n" \
+		<< "--protocol - which protocol would you like to use (tcp, udp, icmp)\n" \
 		<< "--tip - Target IP\n" \
 		<< "--sip - Source IP\n" \
 		<< "--tp - Target Port\n" \

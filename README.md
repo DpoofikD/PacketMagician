@@ -1,6 +1,6 @@
 # PacketMagician
 
-Easy Linux tool for constructing and sending custom TCP or ICMP packets. May be used for scanning, monitoring and testing.
+Easy Linux tool for constructing and sending custom TCP, UDP or ICMP packets. May be used for scanning, monitoring and testing.
 
 ### Warning!
 
@@ -28,7 +28,7 @@ sudo ./PacketMagician --tip IP --sip IP --tp PORT --sp PORT [args]
 ~~~
 -h, --help - shows this message
 --usage - shows the usage message
---protocol - which protocol would you like to use (currently icmp and tcp are avaliable)
+--protocol - which protocol would you like to use (tcp, udp, icmp)
 --tip - Target IP
 --sip - Source IP
 --tp - Target Port

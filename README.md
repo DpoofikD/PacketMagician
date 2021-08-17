@@ -48,3 +48,7 @@ sudo ./PacketMagician --tip IP --sip IP --tp PORT --sp PORT [args]
 --cksum - Whether to calculate the checksum or not
 -p, --payload - Exact string payload to send
 ~~~
+
+
+##To do:
+- Reieve mode (for now, only in ICMP protocol)

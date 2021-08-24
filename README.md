@@ -1,4 +1,5 @@
 # PacketMagician
+[ ![Relwarc17](https://www.hackthebox.eu/badge/image/278078)](https://www.hackthebox.eu/home/users/profile/278078)
 
 Easy Linux tool for constructing and sending custom TCP, UDP or ICMP packets. May be used for scanning, monitoring and testing.
 

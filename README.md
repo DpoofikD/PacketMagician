@@ -52,4 +52,4 @@ sudo ./PacketMagician --tip IP --sip IP --tp PORT --sp PORT [args]
 
 
 ##To do:
-- Reieve mode (for now, only in ICMP protocol)
+- Recieve mode (for now, only in ICMP protocol)

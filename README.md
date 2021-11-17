@@ -1,3 +1,5 @@
+## [Версия на русском](https://github.com/DpoofikD/PacketMagician/blob/main/README_ru.md)
+
 # PacketMagician
 [ ![Relwarc17](https://www.hackthebox.eu/badge/image/278078)](https://www.hackthebox.eu/home/users/profile/278078)
 
@@ -5,7 +7,7 @@ Easy Linux tool for constructing and sending custom TCP, UDP or ICMP packets. Ma
 
 ### Warning!
 
-I am **_not_** responsible for any damage caused by this tool and do not support using it for illegal operations. Use it your own risk.
+I am **_not_** responsible for any damage caused by this tool and do not support using it for illegal operations. Use it on your own risk.
 
 > *Now water can flow, or it can crash... Be water, my friend*
 
